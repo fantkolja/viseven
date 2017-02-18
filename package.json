@@ -1,0 +1,30 @@
+{
+  "name": "viseven-task",
+  "version": "1.0.0",
+  "description": "Test task for viseven frontend course",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fantkolja/viseven.git"
+  },
+  "keywords": [
+    "viseven",
+    "future",
+    "frontend",
+    "destiny",
+    "course"
+  ],
+  "author": "Mykola Fant",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fantkolja/viseven/issues"
+  },
+  "homepage": "https://github.com/fantkolja/viseven#readme",
+  "devDependencies": {
+    "browser-sync": "^2.18.7",
+    "gulp": "github:gulpjs/gulp#4.0"
+  }
+}
