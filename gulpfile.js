@@ -17,7 +17,7 @@ const notify = require('gulp-notify');
 
 //in command line "set NODE_ENV=prod" or "set NODE_ENV=dev"
 const  isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'dev';
-// console.log(process.env.NODE_ENV, 'isDevelopment ==>', isDevelopment);
+console.log(process.env.NODE_ENV, 'isDevelopment ==>', isDevelopment);
 
 gulp.task('styles', () => {
 	return gulp.src('app/css/main.styl', {since: gulp.lastRun('styles')})
@@ -68,7 +68,7 @@ gulp.task('serve', () => {
 		}
 	});
 
-	bs.watch('app/**/*.*').on('change', bs.reload);
+	bs.watch(['app/**/*.*', '!app/**/*.{es6.js,styl}']).on('change', bs.reload);
 });
 
 gulp.task('default', gulp.series(gulp.parallel('watch', 'serve')));

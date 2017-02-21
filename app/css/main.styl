@@ -1,3 +1,5 @@
+//TODO: mixins
+//TODO: user-select
 @import "imports/reset.styl"
 @import "imports/variables.styl"
 
@@ -21,41 +23,56 @@ header h1
   text-transform: uppercase;
   font-size: 1.5em
   font-weight: 800
-  color: $grey-text
+  color: $text-primary
   span
     color: $main-color
 
 
 // MASONRY GRID
 section.main
-  // outline: 1px solid gold
   overflow: hidden;
 
 
 div.grid
-  // outline: 1px solid blue
   height: 620px
-  margin: 1em auto
+  margin: 1em 0
 
 div.grid-item
-  width: 240px
+  width: 235px
   height: 200px
-  // outline: 1px solid red
-  // margin: 5px
   float: left
   img
     width: 100%
-    height: auto
+    height: 100%
 
 div.grid-item--width
-  width: 476px
+  width: 480px
 
 div.grid-item--height
-  height: 400px
+  height: 410px
 
 .grid-item.placeholder
   text-align: center
   background: white
+  color: $text-secondary
+
+  p
+    margin: .7em
+    font-size: .9em
+    font-weight: 600
+
+  .add-img-button
+    background: $main-color
+    border-radius: 50% //MIXIN
+    width: 50px
+    height: 50px
+    margin: (50% - 25px) auto 0
+
+    span
+      color: white
+      font-weight: 800
+      font-size: 2.5em
+      line-height: 50px
 
 
 // SCROLLBAR
@@ -76,3 +93,4 @@ div.scroll
     border-radius: .5em
     cursor: pointer
     position: absolute
+    margin: 0

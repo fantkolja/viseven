@@ -4,14 +4,13 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   const grid = document.querySelector('.grid'),
-        scrollBar = document.querySelector('.scroll-bar');
+        scrollBarX = document.querySelector('.scroll-bar');
 
   //TODO: add loader into grid cos images loading can take a while
   // set layout of images
   let pckry = new Packery(grid, {
     itemSelector: '.grid-item',
-    columnWidth: 240,
-    rowHeight: 200,
+    gutter: 10,
     horizontal: true
   });
 
@@ -34,20 +33,81 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   })();
 
-  let adjustScrollBar = () => {
+  let adjustScrollBarWidth = () => {
     let percents = isGridWider();
     if (percents) {
-      scrollBar.style.width = percents + '%';
+      scrollBarX.style.width = percents + '%';
     }
   };
 
-  adjustScrollBar();
+  adjustScrollBarWidth();
 
-  scrollBar.addEventListener('mousedown', () => {
+  // event handler for scrollbars
 
-    scrollBar.addEventListener('mousemove', () => {
+  // use closure to keep track of mouse move
+  // and attach event handler to window only once
+  let onMove = (() => {
+    //X for scrollBarX and Y for scrollBarY
+    let lastMouseX = null,
+        lastMouseY = null,
+        marginX = parseFloat(window.
+                  getComputedStyle(scrollBarX).marginLeft),
+        parentWidth = scrollBarX.parentNode.clientWidth;
+    //onMove Handler
+    let onMove = (e) => {
+      let diff,
+          scrollBar = onMove.currentTarget,
+          scrollBarWidth = onMove.scrollBarWidth,
+          gridWidth = onMove.gridWidth;//???????????????
 
-    });
+      //remember initial position of the mouse
+      if (lastMouseX === null) {
+        lastMouseX = e.clientX;
+        return;
+      }
+      // get mouse move
+      diff = e.clientX - lastMouseX;
+      lastMouseX = e.clientX;
+
+      marginX += diff;
+      //prevent dragging to left if on edge
+      if (marginX <= 0) {
+        scrollBar.style.marginLeft = marginX = 0;
+        grid.style.marginLeft = 0;
+        return;
+      //prevent dragging to right if on edge
+      } else if (scrollBarWidth + marginX >= parentWidth) {
+        marginX = parentWidth - scrollBarWidth;
+      }
+      scrollBar.style.marginLeft = marginX + 'px';
+
+      //adjust grid position due to percentage value of scroll-bar margin
+      //***->->-> scrollbar.marginLeft / parent.width = -grid.marginLeft / grid.width <-<-<-***
+      grid.style.marginLeft = (-1 * (marginX / parentWidth) * gridWidth) + 'px';
+    };
+
+    //to disable scrolling onmouseup
+    let removeScrollListeners = () => {
+      window.removeEventListener('mousemove', onMove);
+      lastMouseX = null;
+    };
+
+    window.addEventListener('mouseup', removeScrollListeners);
+    window.addEventListener('blur', removeScrollListeners);
+
+    return onMove;
+  })();
+
+  scrollBarX.addEventListener('mousedown', (e) => {
+    //remember which scrollbar we are currently on
+    onMove.currentTarget = e.target;
+
+    //remember width of the scrollbar and width of the grid
+    //they are needed for dragging computations
+    onMove.scrollBarWidth = e.target.clientWidth;
+    onMove.gridWidth = grid.clientWidth;
+
+    window.addEventListener('mousemove', onMove);
   });
 
 });//end DOMContentLoaded
