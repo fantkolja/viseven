@@ -3,7 +3,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  const grid = document.querySelector('.grid'),
+  let grid = document.querySelector('.grid'),
         scrollBarX = document.querySelector('.scroll-bar');
 
   //TODO: add loader into grid cos images loading can take a while
@@ -18,26 +18,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // use closure to keep reference to section
   // if grid is wider returns the difference in percents
-  // otherwise undefined
-  let isGridWider = (() => {
+  // otherwise returns 100%
+  let getGridPercentage = (() => {
     let section = document.querySelector('section.main');
 
     return () => {
-      let sectionStyle = window.getComputedStyle(section);
-      let sectionWidth = parseFloat(sectionStyle.width);
-      let gridWidth = parseFloat(grid.style.width);
+      let sectionWidth = section.clientWidth;
+      let gridWidth = grid.clientWidth;
 
       if (gridWidth > sectionWidth) {
-        return sectionWidth / gridWidth * 100;
+        return (sectionWidth / gridWidth * 100) + '%';
+      } else {
+        return 100 + '%';
       }
     };
   })();
 
   let adjustScrollBarWidth = () => {
-    let percents = isGridWider();
-    if (percents) {
-      scrollBarX.style.width = percents + '%';
-    }
+    scrollBarX.style.width = getGridPercentage() ;
   };
 
   adjustScrollBarWidth();
@@ -52,8 +50,13 @@ document.addEventListener('DOMContentLoaded', () => {
         lastMouseY = null,
         marginX = parseFloat(window.
                   getComputedStyle(scrollBarX).marginLeft),
-        parentWidth = scrollBarX.parentNode.clientWidth;
-    //onMove Handler
+        scrollBoxWidth = scrollBarX.parentNode.clientWidth;
+
+    //get scrollArea
+    let scrollAreaX = document.querySelector
+                     (scrollBarX.parentNode.getAttribute('data-scroll-area'));
+
+    //actual onMove Handler
     let onMove = (e) => {
       let diff,
           scrollBar = onMove.currentTarget,
@@ -73,17 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
       //prevent dragging to left if on edge
       if (marginX <= 0) {
         scrollBar.style.marginLeft = marginX = 0;
-        grid.style.marginLeft = 0;
+        // to prevent insufficient scroll, when browser renders scroll to slow
+        scrollAreaX.scrollLeft = 0;
         return;
       //prevent dragging to right if on edge
-      } else if (scrollBarWidth + marginX >= parentWidth) {
-        marginX = parentWidth - scrollBarWidth;
+    } else if (scrollBarWidth + marginX >= scrollBoxWidth) {
+        marginX = scrollBoxWidth - scrollBarWidth;
       }
       scrollBar.style.marginLeft = marginX + 'px';
 
       //adjust grid position due to percentage value of scroll-bar margin
       //***->->-> scrollbar.marginLeft / parent.width = -grid.marginLeft / grid.width <-<-<-***
-      grid.style.marginLeft = (-1 * (marginX / parentWidth) * gridWidth) + 'px';
+      scrollAreaX.scrollLeft = marginX / scrollBoxWidth * gridWidth;
     };
 
     //to disable scrolling onmouseup

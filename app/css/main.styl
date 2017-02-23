@@ -2,95 +2,187 @@
 //TODO: user-select
 @import "imports/reset.styl"
 @import "imports/variables.styl"
+@import "imports/mixins.styl"
 
 // COMMON STYLES
 body
-  //TODO: background-color: $background????????????????
-  font-size: $font-size
-  font-family: 'Open Sans', Verdana, sans-serif
+  font-size $font-size
+  font-family 'Open Sans', Verdana, sans-serif
+
+.sprite
+  background-image url(../img/icons.png)
+  background-repeat no-repeat
+  display block
+
+.sprite-comment
+  width 26px
+  height 25px
+  background-position 0 -40px
+
+.sprite-dislike
+  width 26px
+  height 24px
+  background-position 0 -65px
+
+.sprite-dislike-active
+  width 26px
+  height 24px
+  background-position 0 -89px
+
+.sprite-like-active
+  width 26px
+  height 24px
+  background-position 0 -113px
+
+.sprite-like
+  width 26px
+  height 24px
+  background-position 0 -137px
+
+.sprite-add
+  width 20px
+  height 20px
+  background-position 0 0
+
+.sprite-close
+  width 20px
+  height 20px
+  background-position 0 -20px
+
+.sprite-send
+  width 26px
+  height 27px
+  background-position 0 -161px
 
 // MODULE STYLES
 div.wrapper
-  box-sizing: border-box;
-  width: 64em
-  height: 48em
-  margin: 0 auto
-  padding: 1.2em 1.625em
-  background-color: $background
-  overflow: hidden;
+  box-sizing(border-box)
+  width 64em
+  height 48em
+  margin 0 auto
+  padding 1.2em 1.625em
+  background-color $background
+  overflow hidden;
 
 header h1
-  text-transform: uppercase;
-  font-size: 1.5em
-  font-weight: 800
-  color: $text-primary
+  text-transform uppercase;
+  font-size 1.5em
+  font-weight 800
+  color $text-primary
   span
-    color: $main-color
+    color $main-color
 
 
 // MASONRY GRID
 section.main
-  overflow: hidden;
-
+  overflow hidden
+  position relative
 
 div.grid
-  height: 620px
-  margin: 1em 0
+  height 620px
+  margin 1em 0
 
 div.grid-item
-  width: 235px
-  height: 200px
-  float: left
+  width 235px
+  height 200px
+  float left
+  border-radius(5px)
+  box-shadow(0px 0px 13px hsl(210,25,80))
+  position relative
+  overflow hidden
+  user-select(none)
+  cursor pointer
   img
-    width: 100%
-    height: 100%
+    width 100%
+    height 100%
+    transition 1.5s
+    &:hover
+      transform(scale(1.05))
 
 div.grid-item--width
-  width: 480px
+  width 480px
 
 div.grid-item--height
-  height: 410px
+  height 410px
 
 .grid-item.placeholder
-  text-align: center
-  background: white
-  color: $text-secondary
-
+  text-align center
+  background white
+  color $text-secondary
   p
-    margin: .7em
-    font-size: .9em
-    font-weight: 600
-
+    margin .7em
+    font-size .9em
+    font-weight 600
   .add-img-button
-    background: $main-color
-    border-radius: 50% //MIXIN
-    width: 50px
-    height: 50px
-    margin: (50% - 25px) auto 0
+    background $main-color
+    border-radius(50%)
+    width 50px
+    height 50px
+    margin (50% - 25px) auto 0
+    div
+      height 100%
+      padding 50%
+      i
+        margin -10px
 
-    span
-      color: white
-      font-weight: 800
-      font-size: 2.5em
-      line-height: 50px
+.hover-box
+  background-color hsla(0, 100%, 100%, 0.95)
+  box-sizing border-box
+  height 60px
+  width 100%
+  position absolute
+  bottom -60px
+  transition(.3s)
+  padding: 18px
+
+  .grid-item:hover &
+    bottom 0
+
+  i
+    float left
+    position relative
+
+  i:nth-child(n+2)
+    float right
+    margin-left 1.7em
+
+  i::after
+    content attr(data-count)
+    display block
+    width 1.2em
+    height 1.2em
+    position absolute
+    right -.8em
+    top -.5em
+    border-radius 50%
+    border 2px solid $text-secondary
+    text-align center
+    background white
+    font-size .7em
+    font-style normal
+    font-weight 700
+    font-family 'Open Sans', Verdana, sans-serif
+    color $main-color
 
 
 // SCROLLBAR
 //TODO: hide schrollbar by default
 div.scroll
-  box-sizing: border-box
-  height: 10px
-  width: 100%
-  margin: 2.625em 0
-  background: $scroll-box
-  border-radius: .5em
-  position: relative
+  position absolute
+  left 0
+  bottom -26px
+  box-sizing(border-box)
+  height 10px
+  width 100%
+  background $scroll-box
+  border-radius(.5em)
+  position relative
 
   div.scroll-bar
-    width: 0
-    height: 100%;
-    background: $main-color
-    border-radius: .5em
-    cursor: pointer
-    position: absolute
-    margin: 0
+    width 0
+    height 100%;
+    background $main-color
+    border-radius(.5em)
+    cursor pointer
+    position absolute
+    margin 0

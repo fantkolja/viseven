@@ -9,11 +9,10 @@
 
   <link rel="stylesheet" href="css/main.css">
   <title>Viseven Frontend</title>
-  <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet"> -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
 </head>
 
 <body>
-
 <div class="wrapper">
   <header>
     <h1>Welcome to Viseven <span>Imagestock</span></h1>
@@ -21,72 +20,103 @@
 
   <section class="main">
     <div class="grid">
+
       <div class="grid-item grid-item--width">
         <img src="img/1.jpg" alt="nature-1">
+        <div class="hover-box">
+          <i class="sprite sprite-comment" data-count="2"></i>
+          <i class="sprite sprite-like" data-count="10"></i>
+          <i class="sprite sprite-dislike" data-count="1"></i>
+        </div>
       </div>
+
+      <div class="grid-item grid-item--width">
+        <img src="img/1.jpg" alt="nature-1">
+        <div class="hover-box">
+          <i class="sprite sprite-comment" data-count="2"></i>
+          <i class="sprite sprite-like" data-count="10"></i>
+          <i class="sprite sprite-dislike" data-count="1"></i>
+        </div>
+      </div>
+
       <div class="grid-item">
         <img src="img/3.jpg" alt="nature-3">
+        <div class="hover-box">
+          <i class="sprite sprite-comment" data-count="2"></i>
+          <i class="sprite sprite-like" data-count="10"></i>
+          <i class="sprite sprite-dislike" data-count="1"></i>
+        </div>
       </div>
+
       <div class="grid-item">
         <img src="img/7.jpg" alt="nature-7">
+        <div class="hover-box">
+          <i class="sprite sprite-comment" data-count="2"></i>
+          <i class="sprite sprite-like" data-count="10"></i>
+          <i class="sprite sprite-dislike" data-count="1"></i>
+        </div>
       </div>
+
       <div class="grid-item">
         <img src="img/4.jpg" alt="nature-4">
+        <div class="hover-box">
+          <i class="sprite sprite-comment" data-count="2"></i>
+          <i class="sprite sprite-like" data-count="10"></i>
+          <i class="sprite sprite-dislike" data-count="1"></i>
+        </div>
       </div>
+
       <div class="grid-item grid-item--width">
         <img src="img/8.jpg" alt="nature-8">
+        <div class="hover-box">
+          <i class="sprite sprite-comment" data-count="2"></i>
+          <i class="sprite sprite-like" data-count="10"></i>
+          <i class="sprite sprite-dislike" data-count="1"></i>
+        </div>
       </div>
+
       <div class="grid-item grid-item--height">
         <img src="img/2.jpg" alt="nature-2">
+        <div class="hover-box">
+          <i class="sprite sprite-comment" data-count="2"></i>
+          <i class="sprite sprite-like" data-count="10"></i>
+          <i class="sprite sprite-dislike" data-count="1"></i>
+        </div>
       </div>
+
       <div class="grid-item">
         <img src="img/5.jpg" alt="nature-5">
+        <div class="hover-box">
+          <i class="sprite sprite-comment" data-count="2"></i>
+          <i class="sprite sprite-like" data-count="10"></i>
+          <i class="sprite sprite-dislike" data-count="1"></i>
+        </div>
       </div>
+
       <div class="grid-item">
         <img src="img/6.jpg" alt="nature-6">
+        <div class="hover-box">
+          <i class="sprite sprite-comment" data-count="2"></i>
+          <i class="sprite sprite-like" data-count="10"></i>
+          <i class="sprite sprite-dislike" data-count="1"></i>
+        </div>
       </div>
+
       <div class="grid-item placeholder">
-        <div class="add-img-button"><span>+</span></div>
+        <div class="add-img-button">
+          <div><i class="sprite sprite-add"></i></div>
+        </div>
         <p>Add your <br>Picture</p>
       </div>
-      <div class="grid-item grid-item--width">
+      <!-- <div class="grid-item grid-item--width">
         <img src="img/8.jpg" alt="nature-8">
-      </div>
-      <div class="grid-item">
-        <img src="img/5.jpg" alt="nature-5">
-      </div>
-      <div class="grid-item">
-        <img src="img/6.jpg" alt="nature-6">
-      </div>
-      <div class="grid-item placeholder">
-        <div class="add-img-button"><span>+</span></div>
-        <p>Add your <br>Picture</p>
-      </div>
-      <div class="grid-item grid-item--width">
-        <img src="img/8.jpg" alt="nature-8">
-      </div>
-      <div class="grid-item">
-        <img src="img/5.jpg" alt="nature-5">
-      </div>
-      <div class="grid-item">
-        <img src="img/6.jpg" alt="nature-6">
-      </div>
-      <div class="grid-item placeholder">
-        <div class="add-img-button"><span>+</span></div>
-        <p>Add your <br>Picture</p>
-      </div>
-      <div class="grid-item grid-item--width">
-        <img src="img/8.jpg" alt="nature-8">
-      </div>
+      </div> -->
     </div>
 
-
-    <div class="scroll">
-      <div class="scroll-bar">
-
-      </div>
-    </div>
   </section>
+  <div class="scroll" data-scroll-area="section.main">
+    <div class="scroll-bar"></div>
+  </div>
 </div>
 
 <script src="lib/packery.pkgd.min.js"></script>
