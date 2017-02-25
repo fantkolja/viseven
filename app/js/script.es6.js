@@ -114,6 +114,19 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('mousemove', onMove);
   });
 
+  //big-image events MOCKUP
+  document.querySelector('.popup')
+    .addEventListener('click', (e) => {
+      let target = e.target;
+      console.log(target.className);
+      if (target.className.indexOf('image-button') > -1) {
+        target.className += ' clicked';
+      } else if (target.className.indexOf('sprite-close') > -1) {
+        document.querySelector('.popup')
+          .style.display = 'none';
+      }
+    });
+
 });//end DOMContentLoaded
 
 })();

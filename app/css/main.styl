@@ -3,7 +3,6 @@
 @import "imports/reset.styl"
 @import "imports/variables.styl"
 @import "imports/mixins.styl"
-
 // COMMON STYLES
 body
   font-size $font-size
@@ -62,14 +61,18 @@ div.wrapper
   margin 0 auto
   padding 1.2em 1.625em
   background-color $background
-  overflow hidden;
+  overflow hidden
+  position relative
 
 header h1
   text-transform uppercase;
   font-size 1.5em
   font-weight 800
   color $text-primary
-  span
+  //to remain when popup appears
+  z-index 3
+  position relative
+  & span
     color $main-color
 
 
@@ -92,7 +95,7 @@ div.grid-item
   overflow hidden
   user-select(none)
   cursor pointer
-  img
+  & img
     width 100%
     height 100%
     transition 1.5s
@@ -109,7 +112,7 @@ div.grid-item--height
   text-align center
   background white
   color $text-secondary
-  p
+  & p
     margin .7em
     font-size .9em
     font-weight 600
@@ -119,34 +122,34 @@ div.grid-item--height
     width 50px
     height 50px
     margin (50% - 25px) auto 0
-    div
+    & div
       height 100%
       padding 50%
-      i
+      & i
         margin -10px
 
 .hover-box
   background-color hsla(0, 100%, 100%, 0.95)
   box-sizing border-box
-  height 60px
+  height $hover-box-height
   width 100%
   position absolute
   bottom -60px
   transition(.3s)
   padding: 18px
-
-  .grid-item:hover &
+  .grid-item:hover &, .image-big &
     bottom 0
 
-  i
-    float left
-    position relative
+.grid-item:nth-last-child(n+2) i
+.image-button i
+  float left
+  position relative
 
-  i:nth-child(n+2)
+  &:nth-child(n+2)
     float right
     margin-left 1.7em
 
-  i::after
+  &::after
     content attr(data-count)
     display block
     width 1.2em
@@ -178,7 +181,7 @@ div.scroll
   border-radius(.5em)
   position relative
 
-  div.scroll-bar
+  & div.scroll-bar
     width 0
     height 100%;
     background $main-color
@@ -186,3 +189,74 @@ div.scroll
     cursor pointer
     position absolute
     margin 0
+
+// POPUP
+div.popup
+  position absolute
+  top 0
+  right 0
+  bottom 0
+  left 0
+  background hsla(0, 100%, 100%, 0.8);
+  z-index 2
+
+  & section
+    position absolute
+    top 90px
+    left 50%
+    width w = $popup-section-width
+    height $popup-section-height
+    box-sizing(border-box)
+    margin-left -(w / 2)
+    background hsla(0, 100%, 100%, 1)
+    box-shadow(5px 5px 10px hsla(0, 0, 80%, .7))
+    padding-bottom 20px
+
+    & .sprite-close
+      position absolute
+      top 12px
+      right 12px
+      cursor pointer
+
+    & .image-big
+      float left
+      width 55.6%
+      height 100%
+      position relative
+      overflow hidden
+      background-image url('../img/3big.jpg')
+      background-position top center
+      background-repeat no-repeat
+      background-size cover
+
+      & .hover-box
+        height $hover-box-height
+        padding 0
+        & .image-button
+          height $hover-box-height
+          width $hover-box-height
+          background $image-button-background
+          float right
+          margin -8px 8px 0 0
+          box-sizing border-box
+          padding: 18px
+          transition(.2s linear)
+          cursor pointer
+          &:hover
+            box-shadow(3px 3px 5px #bbb)
+          &.clicked.like
+            activate-image-button('like')
+          &.clicked.dislike
+            activate-image-button('dislike')
+
+.popup-comments
+  float left
+  padding 32px 38px 0 32px
+  box-sizing(border-box)
+  width 44.4%
+  height 100%
+  background azure
+
+
+// TODO: add and remove variables due to how often are they used
+// TODO: do something with pixels

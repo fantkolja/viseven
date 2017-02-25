@@ -31,3 +31,21 @@ transform()
   -ms-transform arguments
   -o-transform arguments
   transform arguments
+
+activate-image-button(button)
+  margin-top 0
+  &:hover
+    box-shadow none
+  if (button == 'like')
+    background $like-background
+    & i
+      background-position 0 -113px
+  else
+    background $dislike-background
+    & i
+      background-position 0 -89px
+  & i::after
+    border-color white
+// TODO: DELETE THAT MIXIN
+outline(n)
+  outline 1px solid n

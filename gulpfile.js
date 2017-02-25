@@ -30,7 +30,7 @@ gulp.task('styles', () => {
 			}
 		}))
 		.pipe(gulpIf(!isDevelopment, cssmin()))
-		.pipe(sourcemaps.write())
+		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('app/css'));
 });
 
