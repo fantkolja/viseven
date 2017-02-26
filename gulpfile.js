@@ -29,7 +29,7 @@ gulp.task('styles', () => {
 				message: e.message
 			}
 		}))
-		.pipe(gulpIf(!isDevelopment, cssmin()))
+		// .pipe(gulpIf(!isDevelopment, cssmin()))
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('app/css'));
 });

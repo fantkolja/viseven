@@ -172,23 +172,38 @@ div.grid-item--height
 //TODO: hide schrollbar by default
 div.scroll
   position absolute
-  left 0
-  bottom -26px
   box-sizing(border-box)
-  height 10px
-  width 100%
   background $scroll-box
   border-radius(.5em)
   position relative
 
+  &[data-scroll-area="section.main"]
+    left 0
+    bottom -26px
+    height 10px
+    width 100%
+
+  .popup &
+    width 6px
+    height 410px
+    position absolute
+    top 70px
+    right 16px
+
   & div.scroll-bar
-    width 0
-    height 100%;
     background $main-color
     border-radius(.5em)
     cursor pointer
     position absolute
     margin 0
+
+    [data-scroll-area="section.main"] &
+      width 0
+      height 100%;
+
+    .popup &
+      width 100%
+      height 70%
 
 // POPUP
 div.popup
@@ -255,8 +270,103 @@ div.popup
   box-sizing(border-box)
   width 44.4%
   height 100%
-  background azure
+  background-clip content-box
+  color $text-primary
+  font-size 1.5em
+  font-weight 400
+  & .comments
+    height $comments-height
+    width 100%
+    margin 0 -8px
+    padding 4px 8px 0 8px
+    border-bottom 2px solid $scroll-box
+    font-size 11px
+    overflow hidden
+    & .nickname
+    & .date
+      color $text-secondary
+      text-align right
+      padding 7px 0 4px
+      display inline-block
+    & .login::before
+      content 'By '
+    & .date
+      float right
+      vertical-align baseline
+    & .comment-text
+      border 2px solid $background
+      border-radius(3px)
+      padding .7em
+      font-size 1.3em
+      line-height 1.2
+      color $comments-text
 
+.popup label
+  position relative
+  display block
+  width 100%
+  height 0
+
+  &::after
+    content attr(data-placeholder)
+    display block
+    box-sizing border-box
+    width 100%
+    position absolute
+    left 10px
+    font-size .6em
+    color $placeholder-color
+
+  &[for="nickname"]::after
+    height 30px
+    padding-top 12px
+    bottom 12px
+  &[for="comment"]::after
+    height 50px
+    width 100%
+    bottom -10px
+    float left
+
+.popup input
+  width 100%
+  box-sizing border-box
+  border none
+  padding-left 10px
+  font-family 'Open Sans'
+  font-weight 600
+  color $comments-text
+
+  &:focus
+    outline none
+
+  &#nickname
+    height 30px
+    border-bottom 2px solid $background
+    margin-bottom 10px
+    padding-top 6px
+  &#comment
+    height 50px
+    width 100%
+    border 2px solid $background
+    border-radius(3px)
+    padding-bottom 20px
+  &#nickname:focus
+  &#comment:focus
+    border-color $main-color
+  &:focus + label::after
+    content ''
+
+.popup .send-button
+  position absolute
+  right 0
+  bottom 0
+  box-sizing border-box
+  width 50px
+  height 50px
+  padding 12px
+  background $main-color
+  border-radius(2px)
+  cursor pointer
 
 // TODO: add and remove variables due to how often are they used
 // TODO: do something with pixels

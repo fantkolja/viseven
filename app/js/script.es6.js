@@ -124,9 +124,14 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (target.className.indexOf('sprite-close') > -1) {
         document.querySelector('.popup')
           .style.display = 'none';
+      } else if (target.className.indexOf('send-button') > -1) {
+        //to prevent label
+        e.preventDefault();
       }
     });
 
 });//end DOMContentLoaded
 
 })();
+
+//TODO: DOM elements, that u manage through JS must have data-

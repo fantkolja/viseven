@@ -11,7 +11,7 @@
 
   <link rel="stylesheet" href="css/main.css">
   <title>Viseven Frontend</title>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet"> -->
 </head>
 
 <body>
@@ -122,20 +122,79 @@
 
   <div class="popup">
     <section>
-        <article class="image-big">
-          <div class="hover-box">
-            <div class="image-button like">
-              <i class="sprite sprite-like" data-count="10"></i>
-            </div>
-            <div class="image-button dislike">
-              <i class="sprite sprite-dislike" data-count="1"></i>
+      <i class="sprite sprite-close"></i>
+
+      <article class="image-big">
+        <div class="hover-box">
+          <div class="image-button like">
+            <i class="sprite sprite-like" data-count="10"></i>
+          </div>
+          <div class="image-button dislike">
+            <i class="sprite sprite-dislike" data-count="1"></i>
+          </div>
+        </div>
+      </article>
+
+      <aside class="popup-comments">
+        <h2>Comments: <span data-comments-number>5</span></h2>
+
+        <div class="comments">
+          <div class="comment">
+            <span class="nickname">Anon93</span>
+            <span class="date">Today 10.21 PM</span>
+            <div class="comment-text">
+              <span>Nullam viverra leo eget urna maximus,  et pellentesque enim vol</span>
             </div>
           </div>
-        </article>
-      <aside class="popup-comments">
 
+          <div class="comment">
+            <span class="nickname">Anon93</span>
+            <span class="date">Today 10.21 PM</span>
+            <div class="comment-text">
+              <span>Integer velit lectus, tincidunt rhoncus  nunc ut, dapibus digni</span>
+            </div>
+          </div>
+
+          <div class="comment">
+            <span class="nickname">Anon93</span>
+            <span class="date">Today 10.21 PM</span>
+            <div class="comment-text">
+              <span>Quisque egestas cursus ipsum, vitae  commodo nunc varius nec.</span>
+            </div>
+          </div>
+
+          <div class="comment">
+            <span class="nickname">Anon93</span>
+            <span class="date">Today 10.21 PM</span>
+            <div class="comment-text">
+              <span>Donec ut justo nulla. Duis posuere in  leo in congue.</span>
+            </div>
+          </div>
+
+          <div class="comment">
+            <span class="nickname" data-login="Anon93">Anon93</span>
+            <span class="date" >Today 10.21 PM</span>
+            <div class="comment-text">
+              <span>Quisque convallis nec est nec maximus. Sed lacus est, congue ac. Quisque convallis nec est nec maximus. Sed lacus est, congue ac. Quisque convallis nec est nec maximus. Sed lacus est, congue ac. Quisque convallis nec est nec maximus. Sed lacus est, congue ac.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <input type="text" id="nickname" />
+        <label data-placeholder="Type your nickname here..." for="nickname"></label>
+
+        <input type="text" id="comment" />
+        <label data-placeholder="Write your comment here..." for="comment">
+          <div class="send-button">
+            <i class="sprite sprite-send"></i>
+          </div>
+        </label>
       </aside>
-      <i class="sprite sprite-close" data-count="1"></i>
+
+      <div class="scroll" data-scroll-area="div.comments">
+        <div class="scroll-bar"></div>
+      </div>
     </section>
   </div>
 </div>
