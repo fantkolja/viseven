@@ -98,9 +98,6 @@ div.grid-item
   & img
     width 100%
     height 100%
-    transition 1.5s
-    &:hover
-      transform(scale(1.05))
 
 div.grid-item--width
   width 480px
@@ -112,6 +109,13 @@ div.grid-item--height
   text-align center
   background white
   color $text-secondary
+  & input[type="file"]
+    position absolute
+    opacity 0
+    display block
+    height 100%
+    width 100%
+    cursor pointer
   & p
     margin .7em
     font-size .9em
@@ -137,6 +141,7 @@ div.grid-item--height
   bottom -60px
   transition(.3s)
   padding: 18px
+  cursor default
   .grid-item:hover &, .image-big &
     bottom 0
 
@@ -184,7 +189,7 @@ div.scroll
     width 100%
 
   .popup &
-    width 6px
+    width 5px
     height 410px
     position absolute
     top 70px
@@ -196,10 +201,8 @@ div.scroll
     cursor pointer
     position absolute
     margin 0
-
-    [data-scroll-area="section.main"] &
-      width 0
-      height 100%;
+    width 0
+    height 100%;
 
     .popup &
       width 100%
@@ -214,6 +217,8 @@ div.popup
   left 0
   background hsla(0, 100%, 100%, 0.8);
   z-index 2
+  display none
+  transition(opacity .5s)
 
   & section
     position absolute
@@ -273,22 +278,23 @@ div.popup
   background-clip content-box
   color $text-primary
   font-size 1.5em
-  font-weight 400
+  & h2
+    font-weight 600
   & .comments
     height $comments-height
     width 100%
-    margin 0 -8px
+    margin 0 -8px 5px -6px
     padding 4px 8px 0 8px
     border-bottom 2px solid $scroll-box
     font-size 11px
     overflow hidden
     & .nickname
     & .date
-      color $text-secondary
+      color $placeholder-color
       text-align right
       padding 7px 0 4px
       display inline-block
-    & .login::before
+    & .nickname::before
       content 'By '
     & .date
       float right
@@ -297,7 +303,7 @@ div.popup
       border 2px solid $background
       border-radius(3px)
       padding .7em
-      font-size 1.3em
+      font-size 14px
       line-height 1.2
       color $comments-text
 
@@ -313,7 +319,7 @@ div.popup
     box-sizing border-box
     width 100%
     position absolute
-    left 10px
+    padding-left 10px
     font-size .6em
     color $placeholder-color
 
@@ -324,7 +330,8 @@ div.popup
   &[for="comment"]::after
     height 50px
     width 100%
-    bottom -10px
+    bottom 0
+    padding-top 10px
     float left
 
 .popup input
@@ -344,12 +351,15 @@ div.popup
     border-bottom 2px solid $background
     margin-bottom 10px
     padding-top 6px
+    padding-right 10px
+
   &#comment
     height 50px
     width 100%
     border 2px solid $background
     border-radius(3px)
     padding-bottom 20px
+    padding-right 60px
   &#nickname:focus
   &#comment:focus
     border-color $main-color
@@ -367,6 +377,6 @@ div.popup
   background $main-color
   border-radius(2px)
   cursor pointer
-
+  z-index: 5
 // TODO: add and remove variables due to how often are they used
 // TODO: do something with pixels

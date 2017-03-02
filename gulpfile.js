@@ -51,7 +51,7 @@ gulp.task('js', () => {
 		let pattern = /\.es6/;
 		path.basename = path.basename.replace(pattern, '');
 	}))
-	.pipe(gulpIf(!isDevelopment, uglify()))
+	// .pipe(gulpIf(!isDevelopment, uglify()))
 	.pipe(sourcemaps.write())
 	.pipe(gulp.dest('app/js'));
 });

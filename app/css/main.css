@@ -180,17 +180,6 @@ div.grid-item {
 div.grid-item img {
   width: 100%;
   height: 100%;
-  -webkit-transition: 1.5s;
-  -moz-transition: 1.5s;
-  -o-transition: 1.5s;
-  transition: 1.5s;
-}
-div.grid-item img:hover {
-  -webkit-transform: scale(1.05);
-  -moz-transform: scale(1.05);
-  -ms-transform: scale(1.05);
-  -o-transform: scale(1.05);
-  transform: scale(1.05);
 }
 div.grid-item--width {
   width: 480px;
@@ -202,6 +191,14 @@ div.grid-item--height {
   text-align: center;
   background: #fff;
   color: #a0b0ba;
+}
+.grid-item.placeholder input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
 }
 .grid-item.placeholder p {
   margin: 0.7em;
@@ -238,6 +235,7 @@ div.grid-item--height {
   -o-transition: 0.3s;
   transition: 0.3s;
   padding: 18px;
+  cursor: default;
 }
 .grid-item:hover .hover-box,
 .image-big .hover-box {
@@ -292,7 +290,7 @@ div.scroll[data-scroll-area="section.main"] {
   width: 100%;
 }
 .popup div.scroll {
-  width: 6px;
+  width: 5px;
   height: 410px;
   position: absolute;
   top: 70px;
@@ -306,8 +304,6 @@ div.scroll div.scroll-bar {
   cursor: pointer;
   position: absolute;
   margin: 0;
-}
-[data-scroll-area="section.main"] div.scroll div.scroll-bar {
   width: 0;
   height: 100%;
 }
@@ -323,6 +319,11 @@ div.popup {
   left: 0;
   background: rgba(255,255,255,0.8);
   z-index: 2;
+  display: none;
+  -webkit-transition: opacity 0.5s;
+  -moz-transition: opacity 0.5s;
+  -o-transition: opacity 0.5s;
+  transition: opacity 0.5s;
 }
 div.popup section {
   position: absolute;
@@ -423,12 +424,14 @@ div.popup section .image-big .hover-box .image-button.clicked.dislike i::after {
   background-clip: content-box;
   color: #8499a7;
   font-size: 1.5em;
-  font-weight: 400;
+}
+.popup-comments h2 {
+  font-weight: 600;
 }
 .popup-comments .comments {
   height: 420px;
   width: 100%;
-  margin: 0 -8px;
+  margin: 0 -8px 5px -6px;
   padding: 4px 8px 0 8px;
   border-bottom: 2px solid #d1dae3;
   font-size: 11px;
@@ -436,12 +439,12 @@ div.popup section .image-big .hover-box .image-button.clicked.dislike i::after {
 }
 .popup-comments .comments .nickname,
 .popup-comments .comments .date {
-  color: #a0b0ba;
+  color: #95a7b3;
   text-align: right;
   padding: 7px 0 4px;
   display: inline-block;
 }
-.popup-comments .comments .login::before {
+.popup-comments .comments .nickname::before {
   content: 'By ';
 }
 .popup-comments .comments .date {
@@ -454,7 +457,7 @@ div.popup section .image-big .hover-box .image-button.clicked.dislike i::after {
   -moz-border-radius: 3px;
   border-radius: 3px;
   padding: 0.7em;
-  font-size: 1.3em;
+  font-size: 14px;
   line-height: 1.2;
   color: #607583;
 }
@@ -472,7 +475,7 @@ div.popup section .image-big .hover-box .image-button.clicked.dislike i::after {
   box-sizing: border-box;
   width: 100%;
   position: absolute;
-  left: 10px;
+  padding-left: 10px;
   font-size: 0.6em;
   color: #95a7b3;
 }
@@ -484,7 +487,8 @@ div.popup section .image-big .hover-box .image-button.clicked.dislike i::after {
 .popup label[for="comment"]::after {
   height: 50px;
   width: 100%;
-  bottom: -10px;
+  bottom: 0;
+  padding-top: 10px;
   float: left;
 }
 .popup input {
@@ -506,6 +510,7 @@ div.popup section .image-big .hover-box .image-button.clicked.dislike i::after {
   border-bottom: 2px solid #f0f3f6;
   margin-bottom: 10px;
   padding-top: 6px;
+  padding-right: 10px;
 }
 .popup input#comment {
   height: 50px;
@@ -515,6 +520,7 @@ div.popup section .image-big .hover-box .image-button.clicked.dislike i::after {
   -moz-border-radius: 3px;
   border-radius: 3px;
   padding-bottom: 20px;
+  padding-right: 60px;
 }
 .popup input#nickname:focus,
 .popup input#comment:focus {
@@ -538,6 +544,7 @@ div.popup section .image-big .hover-box .image-button.clicked.dislike i::after {
   -moz-border-radius: 2px;
   border-radius: 2px;
   cursor: pointer;
+  z-index: 5;
 }
 
 /*# sourceMappingURL=main.css.map */
