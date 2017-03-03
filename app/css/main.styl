@@ -86,8 +86,8 @@ div.grid
   margin 1em 0
 
 div.grid-item
-  width 235px
-  height 200px
+  width $grid-item-width
+  height $grid-item-height
   float left
   border-radius(5px)
   box-shadow(0px 0px 13px hsl(210,25,80))
@@ -96,14 +96,18 @@ div.grid-item
   user-select(none)
   cursor pointer
   & img
+  &.grid-item--width img
     width 100%
+    height auto
+  &.grid-item--height img
+    width auto
     height 100%
 
 div.grid-item--width
-  width 480px
+  width $wide-grid-item
 
 div.grid-item--height
-  height 410px
+  height $high-grid-item
 
 .grid-item.placeholder
   text-align center
@@ -211,6 +215,8 @@ div.scroll
 // POPUP
 div.popup
   position absolute
+  min-height 48em
+  box-sizing border-box
   top 0
   right 0
   bottom 0
@@ -244,7 +250,7 @@ div.popup
       height 100%
       position relative
       overflow hidden
-      background-image url('../img/3big.jpg')
+      background-image url('../img/2big.jpg')
       background-position top center
       background-repeat no-repeat
       background-size cover
@@ -380,3 +386,41 @@ div.popup
   z-index: 5
 // TODO: add and remove variables due to how often are they used
 // TODO: do something with pixels
+
+.popup.orientation-chose
+  padding-top 5em
+  & h2
+    font-size 1.5em
+    color $text-primary
+    text-align center
+    margin-bottom 1em
+  & .frames
+    width $grid-item-width + $wide-grid-item + 10px
+    height $high-grid-item
+    background white
+    position absolute
+    left 50%
+    padding 2em
+    margin-left (@width * -0.5) - 32px
+    &:hover .grid-item::before
+      content ''
+      display block
+      position absolute
+      width 100%
+      height 100%
+      background hsla(0, 0, 100%, 0.5);
+      transition .3s
+    & .grid-item
+      position absolute
+      transition .7s
+      &:hover::before
+        background hsla(0, 0, 100%, 0);
+      &:nth-child(1)
+        top @padding
+        left @padding
+      &:nth-child(2)
+        top @padding
+        right @padding
+      &:nth-child(3)
+        right @padding
+        bottom @padding

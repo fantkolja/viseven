@@ -1,4 +1,4 @@
-<!-- TODO: add IE8- message -->
+<!-- TODO: add IE9- message -->
 <!-- grid.item -> article??? -->
 <!DOCTYPE html>
 <html lang="en">
@@ -23,87 +23,6 @@
   <section class="main">
     <div class="grid">
 
-      <!-- <div class="grid-item grid-item--width">
-        <img src="img/1.jpg" alt="nature-1">
-        <div class="hover-box">
-          <i class="sprite sprite-comment" data-count="2"></i>
-          <i class="sprite sprite-like" data-count="10"></i>
-          <i class="sprite sprite-dislike" data-count="1"></i>
-        </div>
-      </div> -->
-
-      <!-- <div class="grid-item grid-item--width">
-        <img src="img/1.jpg" alt="nature-1">
-        <div class="hover-box">
-          <i class="sprite sprite-comment" data-count="2"></i>
-          <i class="sprite sprite-like" data-count="10"></i>
-          <i class="sprite sprite-dislike" data-count="1"></i>
-        </div>
-      </div> -->
-
-      <!-- <div class="grid-item">
-        <img src="img/3.jpg" alt="nature-3">
-        <div class="hover-box">
-          <i class="sprite sprite-comment" data-count="2"></i>
-          <i class="sprite sprite-like" data-count="10"></i>
-          <i class="sprite sprite-dislike" data-count="1"></i>
-        </div>
-      </div>
-
-      <div class="grid-item">
-        <img src="img/7.jpg" alt="nature-7">
-        <div class="hover-box">
-          <i class="sprite sprite-comment" data-count="2"></i>
-          <i class="sprite sprite-like" data-count="10"></i>
-          <i class="sprite sprite-dislike" data-count="1"></i>
-        </div>
-      </div>
-
-      <div class="grid-item">
-        <img src="img/4.jpg" alt="nature-4">
-        <div class="hover-box">
-          <i class="sprite sprite-comment" data-count="2"></i>
-          <i class="sprite sprite-like" data-count="10"></i>
-          <i class="sprite sprite-dislike" data-count="1"></i>
-        </div>
-      </div>
-
-      <div class="grid-item grid-item--width">
-        <img src="img/8.jpg" alt="nature-8">
-        <div class="hover-box">
-          <i class="sprite sprite-comment" data-count="2"></i>
-          <i class="sprite sprite-like" data-count="10"></i>
-          <i class="sprite sprite-dislike" data-count="1"></i>
-        </div>
-      </div>
-
-      <div class="grid-item grid-item--height">
-        <img src="img/2.jpg" alt="nature-2">
-        <div class="hover-box">
-          <i class="sprite sprite-comment" data-count="2"></i>
-          <i class="sprite sprite-like" data-count="10"></i>
-          <i class="sprite sprite-dislike" data-count="1"></i>
-        </div>
-      </div>
-
-      <div class="grid-item">
-        <img src="img/5.jpg" alt="nature-5">
-        <div class="hover-box">
-          <i class="sprite sprite-comment" data-count="2"></i>
-          <i class="sprite sprite-like" data-count="10"></i>
-          <i class="sprite sprite-dislike" data-count="1"></i>
-        </div>
-      </div>
-
-      <div class="grid-item">
-        <img src="img/6.jpg" alt="nature-6">
-        <div class="hover-box">
-          <i class="sprite sprite-comment" data-count="2"></i>
-          <i class="sprite sprite-like" data-count="10"></i>
-          <i class="sprite sprite-dislike" data-count="1"></i>
-        </div>
-      </div> -->
-
       <div class="grid-item placeholder">
         <input type="file" />
         <div class="add-img-button">
@@ -118,7 +37,7 @@
     <div class="scroll-bar"></div>
   </div>
 
-  <div class="popup">
+  <div class="popup big-img">
     <section>
       <i class="sprite sprite-close"></i>
 
@@ -197,6 +116,20 @@
   </div>
 </div>
 
+<div class="popup orientation-chose">
+  <h2>Chose the orientation you like</h2>
+  <div class="frames">
+    <div class="grid-item grid-item--height" data-orientation="portrait">
+      <img src="img/2.jpg">
+    </div>
+    <div class="grid-item grid-item--width" data-orientation="landscape">
+      <img src="img/2.jpg">
+    </div>
+    <div class="grid-item" data-orientation="normal">
+      <img src="img/2.jpg">
+    </div>
+  </div>
+</div>
 
 
 <script src="lib/packery.pkgd.min.js"></script>

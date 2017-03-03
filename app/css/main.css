@@ -177,8 +177,13 @@ div.grid-item {
   user-select: none;
   cursor: pointer;
 }
-div.grid-item img {
+div.grid-item img,
+div.grid-item.grid-item--width img {
   width: 100%;
+  height: auto;
+}
+div.grid-item.grid-item--height img {
+  width: auto;
   height: 100%;
 }
 div.grid-item--width {
@@ -313,6 +318,10 @@ div.scroll div.scroll-bar {
 }
 div.popup {
   position: absolute;
+  min-height: 48em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   top: 0;
   right: 0;
   bottom: 0;
@@ -353,7 +362,7 @@ div.popup section .image-big {
   height: 100%;
   position: relative;
   overflow: hidden;
-  background-image: url("../img/3big.jpg");
+  background-image: url("../img/2big.jpg");
   background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -545,6 +554,58 @@ div.popup section .image-big .hover-box .image-button.clicked.dislike i::after {
   border-radius: 2px;
   cursor: pointer;
   z-index: 5;
+}
+.popup.orientation-chose {
+  padding-top: 5em;
+}
+.popup.orientation-chose h2 {
+  font-size: 1.5em;
+  color: #8499a7;
+  text-align: center;
+  margin-bottom: 1em;
+}
+.popup.orientation-chose .frames {
+  width: 725px;
+  height: 410px;
+  background: #fff;
+  position: absolute;
+  left: 50%;
+  padding: 2em;
+  margin-left: -394.5px;
+}
+.popup.orientation-chose .frames:hover .grid-item::before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.5);
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+.popup.orientation-chose .frames .grid-item {
+  position: absolute;
+  -webkit-transition: 0.7s;
+  -moz-transition: 0.7s;
+  -o-transition: 0.7s;
+  transition: 0.7s;
+}
+.popup.orientation-chose .frames .grid-item:hover::before {
+  background: rgba(255,255,255,0);
+}
+.popup.orientation-chose .frames .grid-item:nth-child(1) {
+  top: 2em;
+  left: 2em;
+}
+.popup.orientation-chose .frames .grid-item:nth-child(2) {
+  top: 2em;
+  right: 2em;
+}
+.popup.orientation-chose .frames .grid-item:nth-child(3) {
+  right: 2em;
+  bottom: 2em;
 }
 
 /*# sourceMappingURL=main.css.map */

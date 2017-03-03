@@ -39,11 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function ImageCollection(data) {
-    let collection = [];
+    let collection = [],
+        lastId = getLastId(data);
+
     for (let i = 0, n = data.length; i < n; i++) {
       collection.push(new ImagePost(data[i]));
     }
-    //TODO: Get last id. DO we need ID?
 
 
 
@@ -52,6 +53,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (collection[i].id === id) return collection[i];
       }
     };
+
+    this.addImagePost = () => {
+
+    }
+
+    function getLastId(data) {
+      let id = 0;
+      for (let i = 0, n = data.length; i < n; i++) {
+        id = (data[i].id > id) ? data[i].id : id;
+      }
+      return id;
+    }
   }
 
   function ImagePost(data) {
@@ -246,26 +259,55 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('mousemove', onMove);
   });
 
+
+  // ADDING NEW IMAGE
+  let fileHandler = (() => {
+    let orientationPopup = document.querySelector('.popup.orientation-chose');
+
+
+    return (e) => {
+      let file = e.target.files[0],
+          imgTypePattern = /^image\//,
+          reader;
+
+      // usr didn't upload anything
+      if (!file) return;
+
+      // if not of type image
+      if (!imgTypePattern.test(file.type)) {
+        alert('You must upload an image!');
+        return;
+      }
+
+      reader = new FileReader();
+
+
+      reader.onload = (e) => {
+        let imgs = orientationPopup.querySelectorAll('img');
+        [].forEach.call(imgs, (img) => {
+          img.src = e.target.result;
+
+        });
+
+        fadePopup('in', orientationPopup);
+      };
+
+      reader.readAsDataURL(file);
+    };
+  })();
+
+
+  document.querySelector('input[type="file"]')
+  .addEventListener('change', fileHandler);
+
+
+
   // GRID LISTENERS -> POPUP && ADD NEW IMAGE
   let clickListener = (() => {
     //closure
-    let popup = document.querySelector('.popup'),
-        popupTransitionDuration = parseFloat(window.getComputedStyle(popup).transitionDuration) * 1000;
-
-    function fadePopup(direction) {
-      if (direction == 'in') {
-        popup.style.display = 'block';
-        popup.style.opacity = 0;
-
-        // to enable proper transitioning with minimal delay
-          setTimeout(() => { popup.style.opacity = 1; }, 4);
-      } else {
-        popup.style.opacity = 0;
-
-        // transitionDuration
-        setTimeout(() => { popup.style.display = 'none'; }, popupTransitionDuration);
-      }
-    }
+    let bigImgPopup = document.querySelector('.popup.big-img'),
+        orientationPopup = document.querySelector('.popup.orientation-chose'),
+        orientation;
 
     // actual listener
     return (e) => {
@@ -273,8 +315,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // image on main window
       if (target.tagName === 'IMG') {
-        fadePopup('in');
 
+        fadePopup('in', bigImgPopup);
+
+    } else if (orientation = target.getAttribute('data-orientation')) {
+
+
+      let imgBig = target.firstElementChild.src;
+
+      new ImagePost({orientation, imgBig});
+      fadePopup('out', orientationPopup);
 
       // ************* POPUP *****************
       // Like and Dislike buttons
@@ -287,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (hasClass(target, 'clicked')) return;
       // if there is already a clicked button -> unclick it
-        let otherClickedButton = popup.querySelector('.image-button.clicked');
+        let otherClickedButton = bigImgPopup.querySelector('.image-button.clicked');
         if (otherClickedButton) removeClass(otherClickedButton, 'clicked');
       // TODO: -1 for likes or dislikes
 
@@ -296,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // TODO: +1 for likes or dislikes
 
       } else if (hasClass(target, 'sprite-close')) {
-        fadePopup('out');
+        fadePopup('out', bigImgPopup);
 
       } else if (target.className.indexOf('send-button') > -1) {
       //to prevent label
@@ -310,6 +360,23 @@ document.addEventListener('DOMContentLoaded', () => {
 });//end DOMContentLoaded
 
 // USEFUL FUNCTIONS
+function fadePopup(direction, node) {
+  let transitionDuration = parseFloat(window.getComputedStyle(node).transitionDuration) * 1000;
+
+  if (direction == 'in') {
+    node.style.display = 'block';
+    node.style.opacity = 0;
+
+    // to enable proper transitioning with minimal delay
+      setTimeout(() => { node.style.opacity = 1; }, 4);
+  } else {
+    node.style.opacity = 0;
+
+    // transitionDuration
+    setTimeout(() => { node.style.display = 'none'; }, transitionDuration);
+  }
+}
+
 function hasClass(elem, className) {
   let classes = elem.className.split(' ');
   return classes.indexOf(className) > -1;
