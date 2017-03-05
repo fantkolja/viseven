@@ -5,6 +5,7 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
+const browserify = require('gulp-browserify');
 
 const stylus = require('gulp-stylus');
 const cssmin = require('gulp-cssmin');
@@ -29,14 +30,23 @@ gulp.task('styles', () => {
 				message: e.message
 			}
 		}))
-		// .pipe(gulpIf(!isDevelopment, cssmin()))
+		.pipe(gulpIf(!isDevelopment, cssmin()))
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('app/css'));
 });
 
 gulp.task('js', () => {
- return gulp.src('app/js/*.es6.js', {since: gulp.lastRun('js')})
+ return gulp.src('app/js/*.es6.js')
  	.pipe(sourcemaps.init())
+	.pipe(browserify({
+		debug: isDevelopment
+	}))
+	.on('error', notify.onError((e) => {
+		return {
+			title: 'Babel',
+			message: e.message
+		}
+	}))
 	.pipe(babel({
 		presets: ['es2015']
 	}))
@@ -46,18 +56,19 @@ gulp.task('js', () => {
 			message: e.message
 		}
 	}))
-	.pipe(rename(path => {
-		//remove ".es6" before extension
-		let pattern = /\.es6/;
-		path.basename = path.basename.replace(pattern, '');
-	}))
-	// .pipe(gulpIf(!isDevelopment, uglify()))
+	// .pipe(rename(path => {
+	// 	//remove ".es6" before extension
+	// 	let pattern = /\.es6/;
+	// 	path.basename = path.basename.replace(pattern, '');
+	// }))
+	.pipe(rename('bundle.js'))
+	.pipe(gulpIf(!isDevelopment, uglify()))
 	.pipe(sourcemaps.write())
 	.pipe(gulp.dest('app/js'));
 });
 
 gulp.task('watch', () => {
-	gulp.watch('app/js/*.es6.js', gulp.series('js'));
+	gulp.watch('app/js/**/*.es6.js', gulp.series('js'));
 	gulp.watch('app/css/*.styl', gulp.series('styles'));
 });
 

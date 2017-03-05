@@ -95,8 +95,9 @@ div.grid-item
   overflow hidden
   user-select(none)
   cursor pointer
+  line-height $grid-item-height
   & img
-  &.grid-item--width img
+    vertical-align middle
     width 100%
     height auto
   &.grid-item--height img
@@ -113,6 +114,7 @@ div.grid-item--height
   text-align center
   background white
   color $text-secondary
+  line-height normal
   & input[type="file"]
     position absolute
     opacity 0
@@ -146,6 +148,7 @@ div.grid-item--height
   transition(.3s)
   padding: 18px
   cursor default
+  line-height normal
   .grid-item:hover &, .image-big &
     bottom 0
 
@@ -168,6 +171,8 @@ div.grid-item--height
     top -.5em
     border-radius 50%
     border 2px solid $text-secondary
+    line-height @height
+    vertical-align middle
     text-align center
     background white
     font-size .7em
@@ -186,7 +191,7 @@ div.scroll
   border-radius(.5em)
   position relative
 
-  &[data-scroll-area="section.main"]
+  &[data-scrolled-area=".grid"]
     left 0
     bottom -26px
     height 10px
@@ -207,6 +212,14 @@ div.scroll
     margin 0
     width 0
     height 100%;
+    //scrollbar must have wider area to handle
+    &::before
+      content ''
+      display block
+      height 100%
+      padding .5em
+      margin-top (@padding * -1)
+
 
     .popup &
       width 100%
@@ -250,10 +263,10 @@ div.popup
       height 100%
       position relative
       overflow hidden
-      background-image url('../img/2big.jpg')
+      // background-image url('../img/2big.jpg')
       background-position top center
       background-repeat no-repeat
-      background-size cover
+      background-size contain
 
       & .hover-box
         height $hover-box-height
@@ -318,6 +331,7 @@ div.popup
   display block
   width 100%
   height 0
+  color $placeholder-color
 
   &::after
     content attr(data-placeholder)
@@ -327,7 +341,7 @@ div.popup
     position absolute
     padding-left 10px
     font-size .6em
-    color $placeholder-color
+    color inherit
 
   &[for="nickname"]::after
     height 30px
@@ -382,7 +396,7 @@ div.popup
   padding 12px
   background $main-color
   border-radius(2px)
-  cursor pointer
+  cursor not-allowed
   z-index: 5
 // TODO: add and remove variables due to how often are they used
 // TODO: do something with pixels

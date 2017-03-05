@@ -33,7 +33,7 @@
     </div>
 
   </section>
-  <div class="scroll" data-scroll-area="section.main">
+  <div class="scroll" data-scrolled-area=".grid">
     <div class="scroll-bar"></div>
   </div>
 
@@ -44,69 +44,39 @@
       <article class="image-big">
         <div class="hover-box">
           <div class="image-button like">
-            <i class="sprite sprite-like" data-count="10"></i>
+            <i class="sprite sprite-like" data-count="0"></i>
           </div>
           <div class="image-button dislike">
-            <i class="sprite sprite-dislike" data-count="1"></i>
+            <i class="sprite sprite-dislike" data-count="0"></i>
           </div>
         </div>
       </article>
 
       <aside class="popup-comments">
-        <h2>Comments: <span data-comments-number>5</span></h2>
+        <h2>Comments: <span>0</span></h2>
 
         <div class="comments">
-          <div class="comment">
+          <!-- <div class="comment">
             <span class="nickname">Anon93</span>
             <span class="date">Today 10.21 PM</span>
             <div class="comment-text">
               <span>Nullam viverra leo eget urna maximus,  et pellentesque enim vol</span>
             </div>
-          </div>
-
-          <div class="comment">
-            <span class="nickname">Anon93</span>
-            <span class="date">Today 10.21 PM</span>
-            <div class="comment-text">
-              <span>Integer velit lectus, tincidunt rhoncus  nunc ut, dapibus digni</span>
-            </div>
-          </div>
-
-          <div class="comment">
-            <span class="nickname">Anon93</span>
-            <span class="date">Today 10.21 PM</span>
-            <div class="comment-text">
-              <span>Quisque egestas cursus ipsum, vitae  commodo nunc varius nec.</span>
-            </div>
-          </div>
-
-          <div class="comment">
-            <span class="nickname">Anon93</span>
-            <span class="date">Today 10.21 PM</span>
-            <div class="comment-text">
-              <span>Donec ut justo nulla. Duis posuere in  leo in congue.</span>
-            </div>
-          </div>
-
-          <div class="comment">
-            <span class="nickname" data-login="Anon93">Anon93</span>
-            <span class="date" >Today 10.21 PM</span>
-            <div class="comment-text">
-              <span>Quisque convallis nec est nec maximus. Sed lacus est, congue ac. Quisque convallis nec est nec maximus. Sed lacus est, congue ac. Quisque convallis nec est nec maximus. Sed lacus est, congue ac. Quisque convallis nec est nec maximus. Sed lacus est, congue ac.</span>
-            </div>
-          </div>
+          </div> -->
 
         </div>
 
-        <input type="text" id="nickname" />
-        <label data-placeholder="Type your nickname here..." for="nickname"></label>
+        <div class="inputs">
+          <input type="text" id="nickname" />
+          <label data-placeholder="Type your nickname here..." for="nickname"></label>
 
-        <input type="text" id="comment" />
-        <label data-placeholder="Write your comment here..." for="comment">
-          <div class="send-button">
-            <i class="sprite sprite-send"></i>
-          </div>
-        </label>
+          <input type="text" id="comment" />
+          <label data-placeholder="Write your comment here..." for="comment">
+            <div class="send-button">
+              <i class="sprite sprite-send"></i>
+            </div>
+          </label>
+        </div>
       </aside>
 
       <div class="scroll" data-scroll-area="div.comments">
@@ -133,6 +103,6 @@
 
 
 <script src="lib/packery.pkgd.min.js"></script>
-<script src="js/script.js"></script>
+<script src="js/bundle.js"></script>
 </body>
 </html>
