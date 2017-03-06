@@ -1,4 +1,5 @@
 // TODO: add popup "onblur"
+// TODO: inputs.addPlaceholders() - > both, ('nickname') -> nickname
 (() => {
 'use strict';
 
@@ -68,7 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('input[type="file"]')
   .addEventListener('change', fileHandler);
 
-  // FORM VALIDATION
+  // FORM VALIDATION.
+  // It's custom validation to get wider support in styling placeholders
   let inputs = document.querySelector('.popup-comments');
   inputs.nicknameNode = document.getElementById('nickname');
   inputs.commentNode = document.getElementById('comment');
@@ -95,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         label.setAttribute('data-placeholder', placeholders[tgt.id]);
       } else {
         tgt.style.borderColor = '';
-        // remember and delete placeholder
+        // delete placeholder
         label.setAttribute('data-placeholder', '');
       }
     };
@@ -143,9 +145,15 @@ document.addEventListener('DOMContentLoaded', () => {
       imgBig.style.backgroundImage = 'url(' + imgPost.imgBig + ')';
       likeIcon.setAttribute('data-count', imgPost.likes);
       dislikeIcon.setAttribute('data-count', imgPost.dislikes);
-      commentsNumber.textContent = imgPost.comments.length;
+      // if 1 of btton was pressed by user it should remain pressed
+      if (imgPost.myEvaluation == 'like') {
+        addClass(likeIcon.parentNode, 'clicked');
+      } else if (imgPost.myEvaluation == 'dislike') {
+        addClass(dislikeIcon.parentNode, 'clicked');
+      }
 
-      imgPost.showComments(bigImgPopup.querySelector('.comments'));
+      // commentsNumber.textContent = imgPost.comments.length;
+      imgPost.showComments(id);
       fadePopup('in', bigImgPopup);
 
       // remember id of the current image
@@ -180,8 +188,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addComment() {
-      if (!inputs.nicknameNode.value || !inputs.commentNode.value) return;
+      let nickname = inputs.nicknameNode.value;
+      let text = inputs.commentNode.value;
+      if (!nickname || !comment) return;
 
+      //clear inputs
+      inputs.nicknameNode.value = inputs.commentNode.value = '';
+      inputs
+
+      let date = new Date();
+      imageCollection.addComment(bigImgPopup.currentId, {
+        text,
+        nickname,
+        date
+      });
     }
 
     function clearPopup() {
