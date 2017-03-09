@@ -1,4 +1,3 @@
-// TODO: add popup "onblur"
 (() => {
 'use strict';
 
@@ -28,8 +27,6 @@ function getData() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  //TODO: add loader into grid cos images loading can take a while
-
   // ADDING NEW IMAGE
   let fileHandler = (() => {
     let orientationPopup = document.querySelector('.popup.orientation-chose');
@@ -233,27 +230,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // actual listener
     return (e) => {
       let target = e.target;
-
       // click on images on main window
       if (target.tagName === 'IMG') {
         showBigImgPopup(target);
 
+      // ************* POPUP *****************
       // click on orientation images on popup
       } else if (orientation = target.getAttribute('data-orientation')) {
 
         createNewImgPost(target.firstElementChild.src, orientation);
 
-      // ************* POPUP *****************
       // Like and Dislike buttons
       } else if (hasClass(target, 'image-button') ||
                hasClass(target.parentNode, 'image-button')) {
 
         handleBigImgButtons(target);
 
-      } else if (hasClass(target, 'sprite-close')) {
+      } else if (hasClass(target, 'sprite-close') ||
+                 hasClass(target, 'big-img')) {
         clearPopup();
         fadePopup('out', bigImgPopup);
 
+      } else if (hasClass(target, 'orientation-chose')) {
+        fadePopup('out', target);
 
       } else if (hasClass(target, 'send-button') ||
                hasClass(target.parentNode, 'send-button')) {
@@ -281,7 +280,6 @@ function fadePopup(direction, node) {
     setTimeout(() => { node.style.opacity = 1; }, 4);
   } else {
     node.style.opacity = 0;
-
     // transitionDuration
     setTimeout(() => { node.style.display = 'none'; }, transitionDuration);
   }
@@ -306,5 +304,3 @@ function addClass(elem, className) {
 
 
 })();
-
-//TODO: DOM elements, that u manage through JS must have data-

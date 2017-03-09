@@ -1,6 +1,6 @@
-//TODO: add wheel events
 (() => {
 'use strict';
+const scrollBraking = 5;
 
 /**
  * Constructor function for scrollbars
@@ -10,29 +10,28 @@
  */
 
 module.exports = function Scrollbar(scrollBar, direction) {
-  let scrollBox = scrollBar.parentNode;
-  let scrolledArea = document.querySelector
-                   (scrollBox.getAttribute('data-scrolled-area'));
-  let scrolledBox = scrolledArea.parentNode;
-
   // depends on direction of the scrollbar
   let [clientSizeProp, sizeProp, marginProp, clientAxis, scrollProp] = (direction == 'h') ?
   ['clientWidth', 'width', 'marginLeft', 'clientX', 'scrollLeft'] :
   ['clientHeight', 'height', 'marginTop', 'clientY', 'scrollTop'];
 
+  let scrollBox = scrollBar.parentNode;
+  let scrolledArea = document.querySelector
+                   (scrollBox.getAttribute('data-scrolled-area'));
+  let scrolledBox = scrolledArea.parentNode;
+  let scrollBarSize = scrollBar[clientSizeProp];
+  let scrollBoxSize = scrollBox[clientSizeProp];
+  let scrolledAreaSize = scrolledArea[clientSizeProp];
+
 
   // if grid is wider returns the difference in percents
   // otherwise returns 100%
   let getAreaToBoxRatio = () => {
-    let areaSize = scrolledArea[clientSizeProp];
     let boxSize = scrolledBox[clientSizeProp];
+    scrolledAreaSize = scrolledArea[clientSizeProp];
 
-    if (direction == 'v') {
-      // console.log('Area:', scrolledArea, scrolledArea[clientSizeProp], '\nBox:', scrolledBox, scrolledBox[clientSizeProp]);
-    }
-
-    if (areaSize > boxSize) {
-      return (boxSize / areaSize * 100) + '%';
+    if (scrolledAreaSize > boxSize) {
+      return (boxSize / scrolledAreaSize * 100) + '%';
     } else {
       return 100 + '%';
     }
@@ -48,21 +47,25 @@ module.exports = function Scrollbar(scrollBar, direction) {
   this.adjustSize = (toInitial) => {
     let ratio = getAreaToBoxRatio();
 
-    if (toInitial) this.jumpTo(0);
+    if (toInitial) this.scrollAt(0, true);
 
     if (ratio == '100%') {
       scrollBox.style.opacity = 0;
       scrolledBox.removeEventListener('wheel', onWheel);
     } else {
       scrollBox.style.opacity = 1;
+      // set in %
       scrollBar.style[sizeProp] = ratio;
+      //refresh sizes
+      scrollBarSize = scrollBar[clientSizeProp];
+      scrollBoxSize = scrollBox[clientSizeProp];
+
       scrolledBox.addEventListener('wheel', onWheel);
     }
   };
 
   let onWheel = (e) => {
-    console.log('wheel');
-
+    this.scrollAt(e.deltaY / scrollBraking);
     // prevent page scrolling
     e.preventDefault();
   }
@@ -74,26 +77,24 @@ module.exports = function Scrollbar(scrollBar, direction) {
   let onMove = (() => {
     //X for scrollBarX and Y for scrollBarY
     let lastMousePoint = null,
-        margin = parseFloat(window.
-                 getComputedStyle(scrollBar)[marginProp]),
-        scrollBoxSize = scrollBar.parentNode[clientSizeProp];
+        margin = parseFloat(window.getComputedStyle(scrollBar)[marginProp]);
 
-    // junps to given scroll point
-    this.jumpTo = (point) => {
-      margin = point;
-      scrollBar.style[marginProp] = point;
-      scrolledBox[scrollProp] = point;
-    };
+    scrollBoxSize = scrollBar.parentNode[clientSizeProp];
 
-    function isOnBegin() {
-      return margin <= 0;
-    }
+  /**
+   * scrolles at set distance
+   * @param {Number} positive or negative integer
+   * @param {Boolean} if true jumps to initial position
+   * @returns
+   */
+    this.scrollAt = (distance, onInit) => {
+      if (onInit) {
+        margin = scrollBar.style[marginProp] =
+        scrolledBox[scrollProp] = 0;
+        return;
+      }
 
-    function isOnEnd() {
-      return onMove.scrollBarSize + margin >= scrollBoxSize;
-    }
-
-    function scrollTo() {
+      margin += distance;
       if (isOnBegin()) {
         scrollBar.style[marginProp] = margin = 0;
         // to prevent insufficient scroll, when browser renders scroll to slow
@@ -101,21 +102,26 @@ module.exports = function Scrollbar(scrollBar, direction) {
         return;
       //prevent dragging to right if on edge
       } else if (isOnEnd()) {
-        margin = scrollBoxSize - onMove.scrollBarSize;
+        margin = scrollBoxSize - scrollBarSize;
       }
 
-      onMove.currentTarget.style[marginProp] = margin + 'px';
+      scrollBar.style[marginProp] = margin + 'px';
       //adjust grid position due to percentage value of scroll-bar margin
       //***->->-> scrollbar[marginProp] / parent.width = -grid[marginProp] / grid.width <-<-<-***
-      // scrolledBox[scrollProp] = margin / scrollBoxSize * scrollAreaSize;
-      scrolledBox[scrollProp] = margin / scrollBoxSize * onMove.scrollAreaSize;
+      scrolledBox[scrollProp] = margin / scrollBoxSize * scrolledAreaSize;
+    };
+
+    function isOnBegin() {
+      return margin <= 0;
+    }
+
+    function isOnEnd() {
+      return scrollBarSize + margin >= scrollBoxSize;
     }
 
     //onMove Handler
     let onMove = (e) => {
-      let diff,
-          scrollBar = onMove.currentTarget,
-          scrollBarSize = onMove.scrollBarSize;
+      let diff;
 
       if (!scrollBoxSize) scrollBoxSize = scrollBar.parentNode[clientSizeProp];
 
@@ -128,8 +134,7 @@ module.exports = function Scrollbar(scrollBar, direction) {
       diff = e[clientAxis] - lastMousePoint;
       lastMousePoint = e[clientAxis];
 
-      margin += diff;
-      scrollTo(margin);
+      this.scrollAt(diff);
     };
 
     //to disable scrolling onmouseup
@@ -140,19 +145,10 @@ module.exports = function Scrollbar(scrollBar, direction) {
 
     window.addEventListener('mouseup', removeScrollListeners);
     window.addEventListener('blur', removeScrollListeners);
-
     return onMove;
   })();
 
   scrollBar.addEventListener('mousedown', (e) => {
-    //remember which scrollbar we are currently on
-    onMove.currentTarget = e.target;
-
-    //remember size of the scrollbar and width of the scrollArea
-    //they are needed for dragging computations
-    onMove.scrollBarSize = e.target[clientSizeProp];
-    onMove.scrollAreaSize = scrolledArea[clientSizeProp];
-
     window.addEventListener('mousemove', onMove);
   });
 

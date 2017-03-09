@@ -1,5 +1,3 @@
-<!-- TODO: add IE9- message -->
-<!-- grid.item -> article??? -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +13,10 @@
 </head>
 
 <body>
+<!--[if lte IE 9]>
+	<link rel="stylesheet" href="https://rawgit.com/codefucker/finalReject/master/reject/reject.css" media="all" />
+	<script type="text/javascript" src="https://rawgit.com/codefucker/finalReject/master/reject/reject.min.js"></script>
+<![endif]-->
 <div class="wrapper">
   <header>
     <h1>Welcome to Viseven <span>Imagestock</span></h1>
@@ -92,7 +94,6 @@
     </div>
   </div>
 </div>
-
 
 <script src="lib/packery.pkgd.min.js"></script>
 <script src="js/bundle.js"></script>
