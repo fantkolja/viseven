@@ -11,8 +11,10 @@ let pckry = new Packery(grid, {
   horizontal: true
 });
 
-let scrollX = new Scrollbar(document.querySelector('.scroll-bar'), 'h');
+let scrollX = new Scrollbar(document.querySelector('section + div>.scroll-bar'), 'h');
 scrollX.adjustSize();
+
+let scrollY = new Scrollbar(document.querySelector('.popup.big-img .scroll-bar'), 'v');
 
 function ImageCollection(data) {
   let collection = [];
@@ -167,6 +169,10 @@ ImagePost.prototype.showComments = (function() {
     this.comments.forEach((comment) => {
       comment.putOnPage(commentsDiv);
     });
+
+    // 'true' means, that we jump to 0 scroll 
+    scrollY.adjustSize(true);
+
     // update icons and comments number
     document.querySelector('.popup-comments h2 span')
     .textContent = this.comments.length;

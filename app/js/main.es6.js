@@ -1,5 +1,4 @@
 // TODO: add popup "onblur"
-// TODO: inputs.addPlaceholders() - > both, ('nickname') -> nickname
 (() => {
 'use strict';
 
@@ -81,6 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
     comment: inputs.commentLabel.getAttribute('data-placeholder')
   };
   inputs.button = document.querySelector('.send-button');
+  inputs.clearInputs = function() {
+    this.nicknameNode.value = this.commentNode.value = '';
+    this.nicknameLabel.setAttribute('data-placeholder', this.placeholders.nickname);
+    this.commentLabel.setAttribute('data-placeholder', this.placeholders.comment);
+    this.button.style.cursor = 'not-allowed';
+  };
+
 
   let blurHandler = (() => {
     let placeholders = inputs.placeholders;
@@ -152,9 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addClass(dislikeIcon.parentNode, 'clicked');
       }
 
-      // commentsNumber.textContent = imgPost.comments.length;
-      imgPost.showComments(id);
       fadePopup('in', bigImgPopup);
+      imgPost.showComments(id);
 
       // remember id of the current image
       bigImgPopup.currentId = id;
@@ -190,11 +195,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function addComment() {
       let nickname = inputs.nicknameNode.value;
       let text = inputs.commentNode.value;
-      if (!nickname || !comment) return;
+      if (!nickname || !text) return;
 
       //clear inputs
       inputs.nicknameNode.value = inputs.commentNode.value = '';
-      inputs
+      inputs.clearInputs();
 
       let date = new Date();
       imageCollection.addComment(bigImgPopup.currentId, {
@@ -212,8 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // remove current input values and styling
       let nickname = inputs.nicknameNode;
       let comment = inputs.commentNode;
-      let nicknamePlaceholder = inputs.placeholders.nickname;
-      let commentPlaceholder = inputs.placeholders.comment;
       let nicknameLabel = inputs.nicknameLabel;
       let commentLabel = inputs.commentLabel;
 
@@ -224,8 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
       inputs.button.style.cursor = '';
 
       // add placeholders
-      nicknameLabel.setAttribute('data-placeholder', nicknamePlaceholder);
-      commentLabel.setAttribute('data-placeholder', commentPlaceholder);
+      inputs.clearInputs();
     }
 
     // actual listener
@@ -252,10 +254,11 @@ document.addEventListener('DOMContentLoaded', () => {
         clearPopup();
         fadePopup('out', bigImgPopup);
 
-      //to prevent focusing input
-    } else if (hasClass(target, 'send-button') ||
+
+      } else if (hasClass(target, 'send-button') ||
                hasClass(target.parentNode, 'send-button')) {
         addComment();
+        //to prevent focusing input
         e.preventDefault();
       }
     };
@@ -275,7 +278,7 @@ function fadePopup(direction, node) {
     node.style.opacity = 0;
 
     // to enable proper transitioning with minimal delay
-      setTimeout(() => { node.style.opacity = 1; }, 4);
+    setTimeout(() => { node.style.opacity = 1; }, 4);
   } else {
     node.style.opacity = 0;
 

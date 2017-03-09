@@ -55,31 +55,23 @@
       <aside class="popup-comments">
         <h2>Comments: <span>0</span></h2>
 
-        <div class="comments">
-          <!-- <div class="comment">
-            <span class="nickname">Anon93</span>
-            <span class="date">Today 10.21 PM</span>
-            <div class="comment-text">
-              <span>Nullam viverra leo eget urna maximus,  et pellentesque enim vol</span>
-            </div>
-          </div> -->
-
+        <div class="comments-wrapper">
+          <div class="comments"></div>
         </div>
 
         <div class="inputs">
-          <input type="text" id="nickname" />
+          <input type="text" id="nickname" maxlength="25"/>
           <label data-placeholder="Type your nickname here..." for="nickname"></label>
 
           <input type="text" id="comment" />
-          <label data-placeholder="Write your comment here..." for="comment">
-            <div class="send-button">
-              <i class="sprite sprite-send"></i>
-            </div>
-          </label>
+          <label data-placeholder="Write your comment here..." for="comment"></label>
+          <div class="send-button">
+            <i class="sprite sprite-send"></i>
+          </div>
         </div>
       </aside>
 
-      <div class="scroll" data-scroll-area="div.comments">
+      <div class="scroll" data-scrolled-area="div.comments">
         <div class="scroll-bar"></div>
       </div>
     </section>

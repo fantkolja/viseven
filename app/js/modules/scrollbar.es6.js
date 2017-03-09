@@ -15,31 +15,57 @@ module.exports = function Scrollbar(scrollBar, direction) {
                    (scrollBox.getAttribute('data-scrolled-area'));
   let scrolledBox = scrolledArea.parentNode;
 
+  // depends on direction of the scrollbar
+  let [clientSizeProp, sizeProp, marginProp, clientAxis, scrollProp] = (direction == 'h') ?
+  ['clientWidth', 'width', 'marginLeft', 'clientX', 'scrollLeft'] :
+  ['clientHeight', 'height', 'marginTop', 'clientY', 'scrollTop'];
+
+
   // if grid is wider returns the difference in percents
   // otherwise returns 100%
   let getAreaToBoxRatio = () => {
-    let areaWidth = scrolledArea.clientWidth;
-    let boxWidth = scrolledBox.clientWidth;
+    let areaSize = scrolledArea[clientSizeProp];
+    let boxSize = scrolledBox[clientSizeProp];
 
-    if (areaWidth > boxWidth) {
-      return (boxWidth / areaWidth * 100) + '%';
+    if (direction == 'v') {
+      // console.log('Area:', scrolledArea, scrolledArea[clientSizeProp], '\nBox:', scrolledBox, scrolledBox[clientSizeProp]);
+    }
+
+    if (areaSize > boxSize) {
+      return (boxSize / areaSize * 100) + '%';
     } else {
       return 100 + '%';
     }
   };
 
-  // Enable scroll if area is wider
-  // sets size of scroll-bar
-  this.adjustSize = () => {
+  /**
+   * Enable scroll if area is wider
+   * sets size of scroll-bar
+   * adds and removes wheel listeners
+   * @param {Boolean} 'true' -> jumps to zero scroll
+   * @returns {undefined}
+   */
+  this.adjustSize = (toInitial) => {
     let ratio = getAreaToBoxRatio();
 
-    if (ratio == '100%')
+    if (toInitial) this.jumpTo(0);
+
+    if (ratio == '100%') {
       scrollBox.style.opacity = 0;
-    else {
+      scrolledBox.removeEventListener('wheel', onWheel);
+    } else {
       scrollBox.style.opacity = 1;
-      scrollBar.style.width = ratio;
+      scrollBar.style[sizeProp] = ratio;
+      scrolledBox.addEventListener('wheel', onWheel);
     }
   };
+
+  let onWheel = (e) => {
+    console.log('wheel');
+
+    // prevent page scrolling
+    e.preventDefault();
+  }
 
   // event handler for scrollbars
 
@@ -47,50 +73,69 @@ module.exports = function Scrollbar(scrollBar, direction) {
   // and attach event handler to window only once
   let onMove = (() => {
     //X for scrollBarX and Y for scrollBarY
-    let lastMouseX = null,
-        lastMouseY = null,
+    let lastMousePoint = null,
         margin = parseFloat(window.
-                  getComputedStyle(scrollBar).marginLeft),
-        scrollBoxWidth = scrollBar.parentNode.clientWidth;
+                 getComputedStyle(scrollBar)[marginProp]),
+        scrollBoxSize = scrollBar.parentNode[clientSizeProp];
+
+    // junps to given scroll point
+    this.jumpTo = (point) => {
+      margin = point;
+      scrollBar.style[marginProp] = point;
+      scrolledBox[scrollProp] = point;
+    };
+
+    function isOnBegin() {
+      return margin <= 0;
+    }
+
+    function isOnEnd() {
+      return onMove.scrollBarSize + margin >= scrollBoxSize;
+    }
+
+    function scrollTo() {
+      if (isOnBegin()) {
+        scrollBar.style[marginProp] = margin = 0;
+        // to prevent insufficient scroll, when browser renders scroll to slow
+        scrolledBox[scrollProp] = 0;
+        return;
+      //prevent dragging to right if on edge
+      } else if (isOnEnd()) {
+        margin = scrollBoxSize - onMove.scrollBarSize;
+      }
+
+      onMove.currentTarget.style[marginProp] = margin + 'px';
+      //adjust grid position due to percentage value of scroll-bar margin
+      //***->->-> scrollbar[marginProp] / parent.width = -grid[marginProp] / grid.width <-<-<-***
+      // scrolledBox[scrollProp] = margin / scrollBoxSize * scrollAreaSize;
+      scrolledBox[scrollProp] = margin / scrollBoxSize * onMove.scrollAreaSize;
+    }
 
     //onMove Handler
     let onMove = (e) => {
       let diff,
           scrollBar = onMove.currentTarget,
-          scrollBarSize = onMove.scrollBarSize,
-          scrollAreaSize = onMove.scrollAreaSize;
+          scrollBarSize = onMove.scrollBarSize;
+
+      if (!scrollBoxSize) scrollBoxSize = scrollBar.parentNode[clientSizeProp];
 
       //remember initial position of the mouse
-      if (lastMouseX === null) {
-        lastMouseX = e.clientX;
+      if (lastMousePoint === null) {
+        lastMousePoint = e[clientAxis];
         return;
       }
       // get mouse move
-      diff = e.clientX - lastMouseX;
-      lastMouseX = e.clientX;
+      diff = e[clientAxis] - lastMousePoint;
+      lastMousePoint = e[clientAxis];
 
       margin += diff;
-      //prevent dragging to left if on edge
-      if (margin <= 0) {
-        scrollBar.style.marginLeft = margin = 0;
-        // to prevent insufficient scroll, when browser renders scroll to slow
-        scrolledBox.scrollLeft = 0;
-        return;
-      //prevent dragging to right if on edge
-    } else if (scrollBarSize + margin >= scrollBoxWidth) {
-        margin = scrollBoxWidth - scrollBarSize;
-      }
-      scrollBar.style.marginLeft = margin + 'px';
-
-      //adjust grid position due to percentage value of scroll-bar margin
-      //***->->-> scrollbar.marginLeft / parent.width = -grid.marginLeft / grid.width <-<-<-***
-      scrolledBox.scrollLeft = margin / scrollBoxWidth * scrollAreaSize;
+      scrollTo(margin);
     };
 
     //to disable scrolling onmouseup
     let removeScrollListeners = () => {
       window.removeEventListener('mousemove', onMove);
-      lastMouseX = null;
+      lastMousePoint = null;
     };
 
     window.addEventListener('mouseup', removeScrollListeners);
@@ -105,13 +150,8 @@ module.exports = function Scrollbar(scrollBar, direction) {
 
     //remember size of the scrollbar and width of the scrollArea
     //they are needed for dragging computations
-    if (direction == 'h') {
-      onMove.scrollBarSize = e.target.clientWidth;
-      onMove.scrollAreaSize = scrolledArea.clientWidth;
-    } else if (direction == 'v') {
-      onMove.scrollBarSize = e.target.clientHeight;
-      onMove.scrollAreaSize = scrolledArea.clientHeight;
-    }
+    onMove.scrollBarSize = e.target[clientSizeProp];
+    onMove.scrollAreaSize = scrolledArea[clientSizeProp];
 
     window.addEventListener('mousemove', onMove);
   });
